@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #canvas {
+            display: block;
+            margin: 0 auto;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="500" height="500">
+        您的浏览器不支持 canvas
+    </canvas>
+    <script>
+        // 1. 获取 canvas 对象
+        var canvas = document.getElementById('canvas');
+        // 2. 获取绘图环境
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        // ctx.moveTo(100,100);
+        // ctx.lineTo(400,100);
+        // ctx.lineTo(400,400);
+        // ctx.lineTo(200,400);
+        // ctx.lineTo(200,50);
+        // ctx.lineTo(100,50);
+        // ctx.lineTo(100,400);
+        // ctx.lineTo(200,300);
+        // ctx.lineTo(100,100);
+        // ctx.stroke();
+        // ctx.fill();
+
+        ctx.arc(300, 300, 100, 0, Math.PI * 2, true);
+        ctx.arc(300, 300, 50, 0, Math.PI * 2, false);
+        ctx.arc(250, 300, 200, 0, Math.PI * 2, false);
+        ctx.stroke();
+        ctx.fill()
+
+
+        /*
+            非零填充
+            如果一个区域 包含多个路径要判断这个区域 会不会被填充 可以用非 零填充的规则
+
+            1. 从路径开始 给路径标记方向
+            2. 在要判断是否会被填充的区域 向外引一条射线 
+            3. 记录一个 值： 默认 0
+            4. 如果这条射线穿过一条顺时针的路径 值加 1 ；如果穿过一条 逆时针的路径 就把值 减 1；
+            5. 判断值 （非0填充）
+
+        
+        
+        */
+    </script>
+</body>
+
+</html>

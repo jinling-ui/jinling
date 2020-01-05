@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #canvas1 {
+            display: block;
+            margin: 10px auto;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <!-- canvas 的大小不能在 css 中设置 -->
+        <canvas id="canvas1" width="858" height="570">
+            您的浏览器不支持 canvas
+        </canvas>
+        <canvas id="canvas2" width="4288" height="2848" hidden>
+            您的浏览器不支持 canvas
+        </canvas>
+    </div>
+
+    <script>
+        // 1. 获取 canvas 对象
+        var canvas1 = document.getElementById('canvas1');
+        var canvas2 = document.getElementById('canvas2');
+        // 2. 获取绘图环境
+        var ctx1 = canvas1.getContext('2d');
+        var ctx2 = canvas2.getContext('2d');
+        var cr = 100;
+        var isDown = false;
+        // 加载图片
+        var Img = new Image();
+        Img.src = './images/2.jpg';
+        Img.onload = function () {
+            // 绘制在 ctx1 中
+            ctx1.drawImage(this, 0, 0, canvas1.width, canvas1.height);
+            // 绘制在 ctx2 中
+            ctx2.drawImage(this, 0, 0, canvas2.width, canvas2.height);
+        }
+        canvas1.onmousedown = function (evt) {
+            isDown = true;
+            var e = evt || window.event;
+            maxImage(e.offsetX, e.offsetY);
+        }
+        canvas1.onmouseup = function () {
+            isDown = false;
+            // 重新绘制 canvas1
+            reDarwCanvas1();
+        }
+        canvas1.onmousemove = function (evt) {
+            if (isDown) {
+                var e = evt || window.event;
+                maxImage(e.offsetX, e.offsetY);
+            }
+        }
+
+         // 鼠标移除canvas 
+         canvas1.onmouseout = function(){
+            isDown = false;
+            // 重新绘制 canvas1
+            reDarwCanvas1();
+        }
+        // 处理放大镜的效果
+        function maxImage(x,y) {
+           // 重新绘制 canvas1
+           reDarwCanvas1();   
+            ctx1.save()
+            // 开启路径
+            ctx1.beginPath();
+            ctx1.arc(x, y, cr, 0, Math.PI * 2);
+            // ctx1.stroke()
+            // 对上面的路径进行剪辑
+            ctx1.clip();
+              // 在剪辑的区域里绘制放大的图片
+              ctx1.drawImage(canvas2,5*x-cr,5*y-cr,2*cr,2*cr,x-cr,y-cr,2*cr,2*cr); 
+             //恢复状态
+             ctx1.restore();
+        }
+       // ctx.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+        // 参数 描述 
+        // img     必需。规定要使用的图像、画布或视频。 
+        // sx      可选。开始剪切的 x 坐标位置。 
+        // sy      可选。开始剪切的 y 坐标位置。 
+        // swidth  可选。被剪切图像的宽度。 
+        // sheight 可选。被剪切图像的高度。 
+        // x       必需。在画布上放置图像的 x 坐标位置。 
+        // y       必需。在画布上放置图像的 y 坐标位置。 
+        // width   可选。要使用的图像的宽度。（伸展或缩小图像） 
+        // height  可选。要使用的图像的高度。（伸展或缩小图像） 
+
+
+         // 重新绘制canvas1 的图片
+         function reDarwCanvas1() {
+            // 清除画布
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            // 重新绘制
+            ctx1.drawImage(Img, 0, 0, canvas1.width, canvas1.height);             
+        }
+    </script>
+</body>
+
+</html>
